@@ -1,60 +1,34 @@
 <?php
 
-require __DIR__ . "/src/funcoes.php";
+require __DIR__ . "/src/Modelo/Genero.php";
+require __DIR__ . "/src/Modelo/Titulo.php";  
+require __DIR__ . "/src/Modelo/Serie.php"; 
+require __DIR__ . "/src/Modelo/Filme.php";
+require __DIR__ . "/src/Services/CalculadoraDeMaratona.php";
 
 echo "Bem-vindo(a) ao screen match!\n";
 
-$nomeFilme = "Top Gun - Maverick";
+$filme = new Filme("Top Gun - Maverick", 2022, Genero::SuperHeroi, 90);
 
-$anoLancamento = 2022;
+$filme->avalia(7.8);
+$filme->avalia(8.5);
+$filme->avalia(9.0);
 
-$quantidadeDeNotas = $argc - 1;
-$notas = [];
+var_dump($filme);
 
-for ($contador = 1; $contador < $argc; $contador++) {
-    $notas[] = (float) $argv[$contador];
-}
-$notaFilme = array_sum($notas) / $quantidadeDeNotas;
-$planoPrime = true;
+echo "A média do filme é: " . $filme->media() . "\n";
 
-$incluidoNoPlano = incluidoNoPlano($planoPrime, $anoLancamento);
+$serie = new Serie("Stranger Things", 2016, Genero::Terror, 5, 24, 45);
+$serie->avalia(8.0);
+$serie->avalia(8.5);
+$serie->avalia(9.0);
 
-echo "Nome do filme: " . $nomeFilme . "\n";
-echo "Nota do filme: $notaFilme\n";
-echo "Ano de lançamento: $anoLancamento\n";
+var_dump($serie);
 
-exibeMensagemLancamento($anoLancamento);
+echo "A média da série é: " . $serie->media() . "\n";
 
-$genero = match ($nomeFilme) {
-    "Top Gun - Maverick" => "ação",
-    "Thor: Ragnarok" => "super-herói",
-    "Se beber não case" => "comédia",
-    default => "gênero desconhecido",
-};
+$calculadora = new CalculadoraDeMaratona();
+$calculadora->calcula($filme);
+$calculadora->calcula($serie);
 
-echo "O gênero do filme é: $genero\n";
-
-$filme = criaFilme(
-    nome: "Thor: Ragnarok",
-    anoLancamento: 2021,
-    nota: 7.8,
-    genero: "super-herói",
-);
-
-echo $filme["anoLancamento"];
-
-var_dump($notas);
-sort($notas);
-var_dump($notas);
-echo min($notas);
-
-var_dump($filme['nome']);
-$posicaoDoisPontos = strpos($filme['nome'], ':');
-var_dump($posicaoDoisPontos);
-
-var_dump(substr($filme['nome'], 0, $posicaoDoisPontos));
-
-
-$filmeComoStringJson = json_encode($filme);
-
-file_put_contents(__DIR__ . '/filme.json', $filmeComoStringJson);
+echo "A duração total da maratona é: " . $calculadora->getDuracaoTotal() . " minutos\n";
