@@ -1,10 +1,18 @@
 <?php
 
-require __DIR__ . "/src/Modelo/Genero.php";
-require __DIR__ . "/src/Modelo/Titulo.php";  
-require __DIR__ . "/src/Modelo/Serie.php"; 
-require __DIR__ . "/src/Modelo/Filme.php";
-require __DIR__ . "/src/Services/CalculadoraDeMaratona.php";
+require 'autoload.php';
+
+use ScreenMatch\Modelo\{
+  Filme,
+  Serie,
+  Genero,
+  Episodio
+};
+
+use ScreenMatch\Services\{
+  CalculadoraDeMaratona,
+  ConversorNotaEstrela
+};
 
 echo "Bem-vindo(a) ao screen match!\n";
 
@@ -23,6 +31,8 @@ $serie->avalia(8.0);
 $serie->avalia(8.5);
 $serie->avalia(9.0);
 
+$episodio = new Episodio($serie, "The Vanishing of Will Byers", 1);
+
 var_dump($serie);
 
 echo "A média da série é: " . $serie->media() . "\n";
@@ -32,3 +42,8 @@ $calculadora->calcula($filme);
 $calculadora->calcula($serie);
 
 echo "A duração total da maratona é: " . $calculadora->getDuracaoTotal() . " minutos\n";
+
+$conversor = new ConversorNotaEstrela();
+echo "A nota do filme em estrelas é: " . $conversor->converte($filme) . "\n";
+echo "A nota da série em estrelas é: " . $conversor->converte($serie) . "\n";
+
